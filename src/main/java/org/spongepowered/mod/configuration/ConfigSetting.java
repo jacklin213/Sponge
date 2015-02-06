@@ -22,28 +22,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.mod.mixin;
+package org.spongepowered.mod.configuration;
 
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraftforge.common.config.Property;
 
-import org.spongepowered.api.entity.projectile.fireball.SmallFireball;
-import org.spongepowered.api.entity.projectile.source.ProjectileSource;
-import org.spongepowered.api.util.annotation.NonnullByDefault;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+public class ConfigSetting {
 
-//@NonnullByDefault
-//@Mixin(targets = "net/minecraft/init/Bootstrap$8")
-public class MixinBootstrap {
+    protected Property property;
+    protected String category;
 
-    /*@Redirect(method = "dispenseStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/dispenser/IBlockSource;Lnet/minecraft/item/ItemStack;spawnEntityInWorld(Lnet/minecraft/entity/Entity;)Z"))
-    public boolean onSpawnEntityInWorld(World world, Entity smallFireball, IBlockSource source, ItemStack stack) {
-        ((SmallFireball) smallFireball).setShooter((ProjectileSource) source.getBlockTileEntity());
-        return world.spawnEntityInWorld(smallFireball);
-    }*/
+    public ConfigSetting(String category, Property property) {
+        this.category = category;
+        this.property = property;
+    }
 
+    public Property getProperty() {
+        return this.property;
+    }
+
+    public String getCategory() {
+        return this.category;
+    }
+
+    public String getDescription() {
+        return this.property.comment;
+    }
+
+    public void setValue(String value) {
+        this.property.set(value);
+    }
+
+    public String getValue() {
+        return this.property.getString();
+    }
 }

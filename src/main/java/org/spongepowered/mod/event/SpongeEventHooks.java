@@ -24,15 +24,22 @@
  */
 package org.spongepowered.mod.event;
 
+import org.spongepowered.mod.interfaces.IMixinEntity;
+import org.spongepowered.mod.util.SpongeHooks;
+
+
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.spongepowered.mod.entity.ISpongeEntity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SpongeEventHooks {
 
+    @SideOnly(Side.SERVER)
     @SubscribeEvent
     public void onChunkWatchEvent(ChunkWatchEvent event) {
-        ISpongeEntity spongeEntity = (ISpongeEntity) event.player;
+        IMixinEntity spongeEntity = (IMixinEntity)event.player;
 
         if (spongeEntity.isTeleporting()) {
             event.player.mountEntity(spongeEntity.getTeleportVehicle());
@@ -40,4 +47,11 @@ public class SpongeEventHooks {
             spongeEntity.setIsTeleporting(false);
         }
     }
+
+    @SideOnly(Side.SERVER)
+    @SubscribeEvent
+    public void onEntityDeathEvent(LivingDeathEvent event) {
+        SpongeHooks.logEntityDeath(event.entity);
+    }
+
 }

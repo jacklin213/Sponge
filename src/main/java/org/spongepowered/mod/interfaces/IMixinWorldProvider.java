@@ -22,28 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.mod.mixin;
+package org.spongepowered.mod.interfaces;
 
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import org.spongepowered.mod.configuration.SpongeConfig;
 
-import org.spongepowered.api.entity.projectile.fireball.SmallFireball;
-import org.spongepowered.api.entity.projectile.source.ProjectileSource;
-import org.spongepowered.api.util.annotation.NonnullByDefault;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+public interface IMixinWorldProvider {
 
-//@NonnullByDefault
-//@Mixin(targets = "net/minecraft/init/Bootstrap$8")
-public class MixinBootstrap {
+    void setDimensionConfig(SpongeConfig config);
 
-    /*@Redirect(method = "dispenseStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/dispenser/IBlockSource;Lnet/minecraft/item/ItemStack;spawnEntityInWorld(Lnet/minecraft/entity/Entity;)Z"))
-    public boolean onSpawnEntityInWorld(World world, Entity smallFireball, IBlockSource source, ItemStack stack) {
-        ((SmallFireball) smallFireball).setShooter((ProjectileSource) source.getBlockTileEntity());
-        return world.spawnEntityInWorld(smallFireball);
-    }*/
-
+    SpongeConfig getDimensionConfig();
 }
